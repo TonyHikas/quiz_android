@@ -21,5 +21,6 @@
 
     <!-- My vars -->
     <string name="wait_resend_code">Между запросами кода должно пройти не меньше 1 минуты</string>
-
+    <string name="empty_email">Email не может быть пустым</string>
+    <string name="empty_code">Код не может быть пустым</string>
 </resources>

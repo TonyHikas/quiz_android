@@ -2,10 +2,10 @@ package ru.tonyhikas.quizlearn;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -28,10 +28,29 @@ class RequestTask extends AsyncTask<String, String, ResponseResult> {
 
                 urlConnection.setRequestMethod(method);
                 if (method.equals("POST")){
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
                     urlConnection.setDoOutput(true);
-                    urlConnection.getOutputStream().write(params[2].getBytes());
+                    OutputStream os = urlConnection.getOutputStream();
+                    os.write(params[2].getBytes("UTF-8"));
+                    os.close();
                 }
-                InputStream in = urlConnection.getInputStream();
+                InputStream in;
+                try {
+                    in = urlConnection.getInputStream();
+                }catch (Exception e){
+                    String error_text = "";
+                    InputStreamReader isw = new InputStreamReader(urlConnection.getErrorStream());
+                    int read_char = isw.read();
+                    while (read_char != -1) {
+                        error_text += (char) read_char;
+                        read_char = isw.read();
+                    }
+                    return new ResponseResult(
+                            "",
+                            urlConnection.getResponseCode(),
+                            false,
+                            error_text);
+                }
                 InputStreamReader isw = new InputStreamReader(in);
 
                 int data = isw.read();
@@ -40,8 +59,7 @@ class RequestTask extends AsyncTask<String, String, ResponseResult> {
                     result.data += (char) data;
                     data = isw.read();
                 }
-
-                // return the data to onPostExecute method
+                result.statusCode = urlConnection.getResponseCode();
                 return result;
 
             } catch (Exception e) {
