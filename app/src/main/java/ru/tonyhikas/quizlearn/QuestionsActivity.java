@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,10 +59,23 @@ public class QuestionsActivity extends AppCompatActivity {
 
             // text
             TextView questionText = new TextView(this);
+            questionText.setTextSize(20);
             questionText.setText(question.text);
             questionLayout.addView(questionText);
 
             //images
+            for (String imageURL: question.images){
+                ImageView image = new ImageView(this);
+                new DownloadImageTask(image).execute(imageURL);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                );
+                image.setLayoutParams(layoutParams);
+                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image.setAdjustViewBounds(true);
+                questionLayout.addView(image);
+            }
 
             //answers
 
