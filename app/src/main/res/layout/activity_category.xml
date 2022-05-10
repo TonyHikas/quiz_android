@@ -12,8 +12,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:text="Выбор категории"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/categorySelect"
+        style="@android:style/Widget.Spinner"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10sp"
+        android:background="#E3E3E3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/startTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Начать тест"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categorySelect" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

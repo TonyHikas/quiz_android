@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent;
                 // todo if already authed - go to category page
-                if (false) {
+                if (true) {
                     intent = new Intent(MainActivity.this, CategoryActivity.class);
                 }else{
                     intent = new Intent(MainActivity.this, RegistrationActivity.class);
