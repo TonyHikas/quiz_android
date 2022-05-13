@@ -13,7 +13,7 @@ import java.net.URL;
 class RequestTask extends AsyncTask<String, String, ResponseResult> {
 
     /**
-     * @param params [0] - url, [1] - http method, [2] - data
+     * @param params [0] - url, [1] - http method, [2] - data, [3] - token
      */
     @Override
     protected ResponseResult doInBackground(String... params) {
@@ -22,11 +22,21 @@ class RequestTask extends AsyncTask<String, String, ResponseResult> {
             URL url;
             String method = params[1];
             HttpURLConnection urlConnection = null;
+            String token;
+            try{
+                token = params[3];
+            }catch (ArrayIndexOutOfBoundsException e){
+                token = "";
+            }
             try {
                 url = new URL(params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                 urlConnection.setRequestMethod(method);
+                if (!token.equals("")){
+                    urlConnection.setRequestProperty("Authorization", "Token "+token);
+                }
+                urlConnection.setConnectTimeout(5000);
                 if (method.equals("POST")){
                     urlConnection.setRequestProperty("Content-Type", "application/json");
                     urlConnection.setDoOutput(true);

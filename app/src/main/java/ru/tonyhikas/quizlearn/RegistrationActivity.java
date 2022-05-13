@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -48,7 +51,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 emailField.setEnabled(false);
                 new SendCodeTask().execute(
                         "https://quiz.tonyhikas.ru/api/auth?email="+email,
-                        "GET"
+                        "GET",
+                        "",
+                        ""
                 );
 
             }
@@ -74,7 +79,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 new RegisterTask().execute(
                         "https://quiz.tonyhikas.ru/api/auth/",
                         "POST",
-                        data.toString()
+                        data.toString(),
+                        ""
                 );
 
             }
@@ -150,7 +156,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast.makeText(RegistrationActivity.this, "Ошибка парсинга ответа", Toast.LENGTH_LONG).show();
                     return;
                 }
-                SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences("auth", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("token", token);
                 editor.apply();

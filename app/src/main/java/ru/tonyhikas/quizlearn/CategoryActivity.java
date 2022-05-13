@@ -2,7 +2,9 @@ package ru.tonyhikas.quizlearn;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,10 +35,14 @@ public class CategoryActivity extends AppCompatActivity {
 
         categorySelect = findViewById(R.id.categorySelect);
         startButton = findViewById(R.id.startTest);
+        SharedPreferences prefs = getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = prefs.getString("token", "");
 
         new CategoryTask().execute(
                 "https://quiz.tonyhikas.ru/api/quiz/category_autocomplete/?_type=query",
-                "GET"
+                "GET",
+                "",
+                token
         );
 
         startButton.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,9 @@ package ru.tonyhikas.quizlearn;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -52,6 +54,9 @@ public class QuestionsActivity extends AppCompatActivity {
                 finish();
             }
         });
+        SharedPreferences prefs = getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+        Log.i("info", token);
 
         Intent currentIntent = getIntent();
         categoryId = currentIntent.getIntExtra("categoryId", 0);
@@ -82,7 +87,8 @@ public class QuestionsActivity extends AppCompatActivity {
                 new CheckQuestionsTask().execute(
                         "https://quiz.tonyhikas.ru/api/quiz/check_answers/",
                         "POST",
-                        data.toString()
+                        data.toString(),
+                        token
                 );
             }
         });
@@ -92,7 +98,9 @@ public class QuestionsActivity extends AppCompatActivity {
                         "https://quiz.tonyhikas.ru/api/quiz/get_questions/?category_id=%d&questions_count=5",
                         categoryId
                 ),
-                "GET"
+                "GET",
+                "",
+                token
         );
 
     }

@@ -1,6 +1,8 @@
 package ru.tonyhikas.quizlearn;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent;
                 // todo if already authed - go to category page
-                if (true) {
-                    intent = new Intent(MainActivity.this, CategoryActivity.class);
-                }else{
+                SharedPreferences prefs = getSharedPreferences("auth", Context.MODE_PRIVATE);
+                String token = prefs.getString("token", "");
+                if (token.equals("")) {
                     intent = new Intent(MainActivity.this, RegistrationActivity.class);
+                }else{
+                    intent = new Intent(MainActivity.this, CategoryActivity.class);
                 }
                 startActivity(intent);
             }
