@@ -36,6 +36,8 @@ public class QuestionsActivity extends AppCompatActivity {
     ArrayList<Question> questions = new ArrayList<>();
     ArrayList<CheckedAnswer> checkedAnswers = new ArrayList<>();
     Button checkButton;
+    Button returnButton;
+    ArrayList<RadioButton> radioButtons = new ArrayList<>();
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -43,6 +45,13 @@ public class QuestionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
+        returnButton = findViewById(R.id.retrunBtn);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Intent currentIntent = getIntent();
         categoryId = currentIntent.getIntExtra("categoryId", 0);
@@ -129,6 +138,7 @@ public class QuestionsActivity extends AppCompatActivity {
                 );
                 answerButton.setLayoutParams(layoutParams);
                 answerButton.setId(answer.id);
+                radioButtons.add(answerButton);
                 answersGroup.addView(answerButton);
             }
             questionLayout.addView(answersGroup);
@@ -159,6 +169,14 @@ public class QuestionsActivity extends AppCompatActivity {
                 RadioButton userButton = findViewById(checkedAnswer.user_answer_id);
                 userButton.setBackgroundColor(Color.RED);
             }
+        }
+    }
+
+    private void disableAnswering(){
+        checkButton.setVisibility(Button.GONE);
+        returnButton.setVisibility(Button.VISIBLE);
+        for (RadioButton radioButton: radioButtons){
+            radioButton.setEnabled(false);
         }
     }
 
@@ -286,6 +304,7 @@ public class QuestionsActivity extends AppCompatActivity {
                     Toast.makeText(QuestionsActivity.this, "Ошибка парсинга ответа", Toast.LENGTH_LONG).show();
                     return;
                 }
+                disableAnswering();
                 drawChecked();
             }
             progressDialog.dismiss();
