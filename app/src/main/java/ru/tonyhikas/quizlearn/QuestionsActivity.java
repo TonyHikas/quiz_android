@@ -56,7 +56,6 @@ public class QuestionsActivity extends AppCompatActivity {
         });
         SharedPreferences prefs = getSharedPreferences("auth", Context.MODE_PRIVATE);
         String token = prefs.getString("token", "");
-        Log.i("info", token);
 
         Intent currentIntent = getIntent();
         categoryId = currentIntent.getIntExtra("categoryId", 0);
